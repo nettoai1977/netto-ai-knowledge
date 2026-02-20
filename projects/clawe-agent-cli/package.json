@@ -1,0 +1,23 @@
+{
+  "name": "@openclaw/agent-cli",
+  "version": "1.0.0",
+  "description": "OpenClaw Agent CLI - Task and Squad Management",
+  "bin": {
+    "agent-cli": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "openclaw",
+    "agent",
+    "cli",
+    "task-management",
+    "multi-agent"
+  ],
+  "author": "OpenClaw",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

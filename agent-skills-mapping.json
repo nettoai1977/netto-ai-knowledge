@@ -1,0 +1,159 @@
+{
+  "version": "1.0.0",
+  "description": "Agent-to-Skill Mapping for Netto.AI Multi-Agent System",
+  "skillsPath": "~/.openclaw/skills/antigravity/skills",
+  "agents": {
+    "atlas": {
+      "name": "Atlas",
+      "role": "Deep Reasoning Specialist",
+      "assignedSkills": [
+        "senior-architect",
+        "architecture-patterns",
+        "event-sourcing-architect",
+        "architecture-decision-records",
+        "microservices-patterns"
+      ],
+      "bundles": ["Architecture & Design"]
+    },
+    "nova": {
+      "name": "Nova",
+      "role": "Strategy Specialist",
+      "assignedSkills": [
+        "product-manager-toolkit",
+        "startup-metrics-framework",
+        "competitive-landscape",
+        "launch-strategy",
+        "pricing-strategy"
+      ],
+      "bundles": ["Startup Founder", "Business Analyst"]
+    },
+    "coder": {
+      "name": "Coder",
+      "role": "Development Specialist",
+      "assignedSkills": [
+        "typescript-expert",
+        "test-driven-development",
+        "lint-and-validate",
+        "git-pushing",
+        "python-patterns",
+        "api-patterns"
+      ],
+      "bundles": ["Full-Stack Developer", "TypeScript & JavaScript"]
+    },
+    "orion": {
+      "name": "Orion",
+      "role": "Technical Analysis Specialist",
+      "assignedSkills": [
+        "vulnerability-scanner",
+        "security-auditor",
+        "systematic-debugging",
+        "api-security-best-practices",
+        "ethical-hacking-methodology"
+      ],
+      "bundles": ["Security Engineer", "QA & Testing"]
+    },
+    "flash": {
+      "name": "Flash",
+      "role": "Speed Specialist",
+      "assignedSkills": [
+        "concise-planning",
+        "lint-and-validate",
+        "git-pushing",
+        "verification-before-completion",
+        "kaizen"
+      ],
+      "bundles": ["Essentials"]
+    },
+    "luna": {
+      "name": "Luna",
+      "role": "Creative Specialist",
+      "assignedSkills": [
+        "canvas-design",
+        "content-creator",
+        "copy-editing",
+        "algorithmic-art",
+        "frontend-design"
+      ],
+      "bundles": ["Creative Director"]
+    },
+    "zen": {
+      "name": "Zen",
+      "role": "Contemplation Specialist",
+      "assignedSkills": [
+        "kaizen",
+        "documentation-templates",
+        "writing-skills",
+        "doc-coauthoring"
+      ],
+      "bundles": ["Essentials"]
+    },
+    "max": {
+      "name": "Max",
+      "role": "Heavy Lifting Specialist",
+      "assignedSkills": [
+        "docker-expert",
+        "kubernetes-architect",
+        "terraform-specialist",
+        "aws-serverless",
+        "deployment-procedures"
+      ],
+      "bundles": ["DevOps & Cloud"]
+    },
+    "titan": {
+      "name": "Titan",
+      "role": "Experimentation Specialist",
+      "assignedSkills": [
+        "ethical-hacking-methodology",
+        "cloud-penetration-testing",
+        "linux-privilege-escalation",
+        "burp-suite-testing"
+      ],
+      "bundles": ["Security Engineer"]
+    },
+    "spark": {
+      "name": "Spark",
+      "role": "Quick Wins Specialist",
+      "assignedSkills": [
+        "brainstorming",
+        "launch-strategy",
+        "copywriting",
+        "form-cro",
+        "seo-audit"
+      ],
+      "bundles": ["Marketing & Growth"]
+    },
+    "vision": {
+      "name": "Vision",
+      "role": "Visual Analysis Specialist",
+      "assignedSkills": [
+        "frontend-design",
+        "ui-ux-pro-max",
+        "3d-web-experience",
+        "mobile-design",
+        "scroll-experience"
+      ],
+      "bundles": ["Web Designer"]
+    },
+    "main": {
+      "name": "Netto.AI",
+      "role": "Primary Coordination Agent",
+      "assignedSkills": [
+        "concise-planning",
+        "agent-evaluation",
+        "mcp-builder",
+        "skill-creator",
+        "kaizen"
+      ],
+      "bundles": ["Essentials", "Agent Architect"]
+    }
+  },
+  "bundles": {
+    "Essentials": ["concise-planning", "lint-and-validate", "git-pushing", "kaizen", "systematic-debugging"],
+    "Agent Architect": ["agent-evaluation", "langgraph", "mcp-builder", "prompt-engineering", "ai-agents-architect"],
+    "Security Engineer": ["ethical-hacking-methodology", "vulnerability-scanner", "api-security-best-practices"],
+    "Full-Stack Developer": ["senior-fullstack", "typescript-expert", "api-patterns", "database-design"]
+  },
+  "installedAt": "2026-02-17T02:09:00Z",
+  "source": "https://github.com/sickn33/antigravity-awesome-skills",
+  "totalSkillsAvailable": 860
+}

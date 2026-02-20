@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "flyto-core": {
+      "command": "python3"
+    }
+  },
+  "imports": []
+}
