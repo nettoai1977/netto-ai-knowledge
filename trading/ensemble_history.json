@@ -1,0 +1,42 @@
+[
+  {
+    "symbol": "BTC/USDT",
+    "timestamp": "2026-02-21T23:24:29.561828",
+    "votes": [
+      {
+        "agent": "Atlas",
+        "model": "nvidia/z-ai/glm4.7",
+        "signal": "WAIT",
+        "confidence": 40,
+        "reasoning": "[Deep Analysis] Unfavorable regime (ranging) or weak trend (ADX=7.6)"
+      },
+      {
+        "agent": "Nova",
+        "model": "nvidia/moonshotai/kimi-k2.5",
+        "signal": "WAIT",
+        "confidence": 30,
+        "reasoning": "Unfavorable regime (ranging) or weak trend (ADX=7.6)"
+      },
+      {
+        "agent": "Orion",
+        "model": "nvidia/deepseek-ai/deepseek-v3.2",
+        "signal": "WAIT",
+        "confidence": 30,
+        "reasoning": "[Technical] Unfavorable regime (ranging) or weak trend (ADX=7.6)"
+      },
+      {
+        "agent": "Flash",
+        "model": "nvidia/stepfun-ai/step-3.5-flash",
+        "signal": "WAIT",
+        "confidence": 25,
+        "reasoning": "[Quick] Unfavorable regime (ranging) or weak trend (ADX=7.6)"
+      }
+    ],
+    "consensus": {
+      "signal": "WAIT",
+      "agreement": 1.0,
+      "confidence": 31.25,
+      "should_trade": false
+    }
+  }
+]
