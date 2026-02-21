@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinity Trading Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a; color: #fff; padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { font-size: 24px; margin-bottom: 20px; color: #00d4ff; }
+        h2 { font-size: 18px; margin: 20px 0 10px; color: #888; }
+        
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #1a1a1a; border-radius: 12px; padding: 20px; text-align: center; }
+        .stat-value { font-size: 28px; font-weight: bold; color: #00d4ff; }
+        .stat-label { font-size: 12px; color: #666; margin-top: 5px; }
+        .stat-value.positive { color: #00ff88; }
+        .stat-value.negative { color: #ff4444; }
+        
+        /* Positions Table */
+        .positions-section { margin-bottom: 30px; }
+        .table-container { background: #1a1a1a; border-radius: 12px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #2a2a2a; }
+        th { background: #252525; color: #888; font-weight: 500; font-size: 12px; text-transform: uppercase; }
+        td { font-size: 14px; }
+        tr:hover { background: #252525; }
+        .long { color: #00ff88; }
+        .short { color: #ff4444; }
+        .wait { color: #888; }
+        
+        /* Trade Log */
+        .trade-log { max-height: 500px; overflow-y: auto; }
+        .trade-item { background: #1a1a1a; border-radius: 8px; padding: 20px; margin-bottom: 10px; border-left: 4px solid #333; }
+        .trade-item.long { border-left-color: #00ff88; }
+        .trade-item.short { border-left-color: #ff4444; }
+        .trade-item.wait { border-left-color: #888; }
+        
+        .trade-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .trade-symbol { font-size: 18px; font-weight: bold; }
+        .trade-time { color: #666; font-size: 12px; }
+        
+        .trade-details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 15px; }
+        .detail-item { }
+        .detail-label { font-size: 11px; color: #666; text-transform: uppercase; }
+        .detail-value { font-size: 16px; margin-top: 4px; }
+        
+        /* Agent Votes */
+        .agent-votes { background: #252525; border-radius: 8px; padding: 15px; margin-top: 15px; }
+        .votes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .agent-vote { text-align: center; padding: 10px; background: #1a1a1a; border-radius: 8px; }
+        .agent-name { font-size: 12px; color: #00d4ff; margin-bottom: 5px; }
+        .agent-decision { font-size: 14px; font-weight: bold; }
+        .agent-confidence { font-size: 11px; color: #666; margin-top: 4px; }
+        
+        /* Rationale */
+        .rationale { background: #252525; border-radius: 8px; padding: 15px; margin-top: 15px; font-size: 13px; color: #aaa; line-height: 1.6; }
+        .rationale-label { color: #00d4ff; font-weight: bold; margin-bottom: 8px; }
+        
+        /* Circuit Breaker Warning */
+        .warning { background: #ff444420; border: 1px solid #ff4444; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .warning-title { color: #ff4444; font-weight: bold; margin-bottom: 8px; }
+        
+        /* Refresh */
+        .refresh-info { text-align: center; color: #666; font-size: 12px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Trinity Trading Dashboard</h1>
+        
+        <!-- Performance Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="capital">$10,000</div>
+                <div class="stat-label">Capital</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-pnl">$0</div>
+                <div class="stat-label">Total P&L</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="win-rate">0%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-trades">0</div>
+                <div class="stat-label">Total Trades</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="open-positions">0</div>
+                <div class="stat-label">Open Positions</div>
+            </div>
+        </div>
+        
+        <!-- Circuit Breaker Warning -->
+        <div class="warning" id="circuit-breaker" style="display: none;">
+            <div class="warning-title">🚨 CIRCUIT BREAKER ACTIVE</div>
+            <div>Trading has been paused due to consecutive losses. Manual reset required.</div>
+        </div>
+        
+        <!-- Open Positions -->
+        <div class="positions-section">
+            <h2>📊 Open Positions</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Side</th>
+                            <th>Entry</th>
+                            <th>Current</th>
+                            <th>Size</th>
+                            <th>P&L</th>
+                            <th>Leverage</th>
+                            <th>SL / TP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="positions-body">
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: #666;">No open positions</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Trade Log -->
+        <h2>📝 Trade Log (Decisions & Results)</h2>
+        <div class="trade-log" id="trade-log">
+            <div style="text-align: center; color: #666; padding: 40px;">
+                No trades yet. Waiting for valid signals...
+            </div>
+        </div>
+        
+        <div class="refresh-info">
+            Last updated: <span id="last-update">-</span> | Auto-refresh: 30s
+        </div>
+    </div>
+    
+    <script>
+        // Load trade data
+        async function loadTradeData() {
+            try {
+                // Load trade log
+                const tradeLog = await fetch('trade_log.json').then(r => r.json()).catch(() => ({trades: []}));
+                const ensembleHistory = await fetch('ensemble_history.json').then(r => r.json()).catch(() => ([]));
+                const futuresLog = await fetch('futures_trade_log.json').then(r => r.json()).catch(() => ({trades: []}));
+                
+                // Combine all trades
+                const allTrades = [
+                    ...(tradeLog.trades || []),
+                    ...(futuresLog.trades || [])
+                ];
+                
+                updateStats(allTrades, tradeLog);
+                updateTradeLog(allTrades, ensembleHistory);
+                
+                document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+            } catch (e) {
+                console.error('Error loading data:', e);
+            }
+        }
+        
+        function updateStats(trades, tradeLog) {
+            const capital = tradeLog.current_capital || 10000;
+            const totalPnl = tradeLog.total_pnl_usd || 0;
+            const winRate = tradeLog.win_rate || 0;
+            const totalTrades = trades.length;
+            const openPositions = trades.filter(t => t.status === 'OPEN').length;
+            
+            document.getElementById('capital').textContent = '$' + capital.toLocaleString();
+            document.getElementById('total-pnl').textContent = (totalPnl >= 0 ? '+' : '') + '$' + totalPnl.toLocaleString();
+            document.getElementById('total-pnl').className = 'stat-value ' + (totalPnl >= 0 ? 'positive' : 'negative');
+            document.getElementById('win-rate').textContent = winRate + '%';
+            document.getElementById('total-trades').textContent = totalTrades;
+            document.getElementById('open-positions').textContent = openPositions;
+            
+            // Circuit breaker
+            if (tradeLog.circuit_breaker_active) {
+                document.getElementById('circuit-breaker').style.display = 'block';
+            }
+        }
+        
+        function updateTradeLog(trades, ensembleHistory) {
+            const container = document.getElementById('trade-log');
+            
+            if (trades.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 40px;">No trades yet. Waiting for valid signals...</div>';
+                return;
+            }
+            
+            container.innerHTML = trades.map(trade => `
+                <div class="trade-item ${trade.action?.toLowerCase()}">
+                    <div class="trade-header">
+                        <div class="trade-symbol">${trade.symbol || 'N/A'}</div>
+                        <div class="trade-time">${trade.timestamp_open || ''}</div>
+                    </div>
+                    
+                    <div class="trade-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Action</div>
+                            <div class="detail-value ${trade.action?.toLowerCase()}">${trade.action || 'N/A'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Entry Price</div>
+                            <div class="detail-value">$${(trade.entry_price || 0).toLocaleString()}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Position Size</div>
+                            <div class="detail-value">$${(trade.position_size || 0).toLocaleString()}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value">${trade.status || 'N/A'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Ensemble Signal</div>
+                            <div class="detail-value">${trade.ensemble_signal || 'N/A'} (${trade.ensemble_confidence || 0}%)</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Confluence</div>
+                            <div class="detail-value">${trade.confluence_score || 0}%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">P&L</div>
+                            <div class="detail-value ${trade.pnl_usd >= 0 ? 'positive' : 'negative'}">
+                                ${trade.pnl_usd !== undefined ? (trade.pnl_usd >= 0 ? '+' : '') + '$' + trade.pnl_usd.toLocaleString() : 'Open'}
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Market Regime</div>
+                            <div class="detail-value">${trade.regime || 'N/A'}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Agent Votes -->
+                    <div class="agent-votes">
+                        <div style="color: #00d4ff; font-weight: bold; margin-bottom: 10px;">Agent Votes</div>
+                        <div class="votes-grid">
+                            <div class="agent-vote">
+                                <div class="agent-name">Atlas (GLM 4.7)</div>
+                                <div class="agent-decision ${trade.atlas_vote?.toLowerCase()}">${trade.atlas_vote || 'N/A'}</div>
+                                <div class="agent-confidence">${trade.atlas_confidence || 0}% confidence</div>
+                            </div>
+                            <div class="agent-vote">
+                                <div class="agent-name">Nova (Kimi K2.5)</div>
+                                <div class="agent-decision ${trade.nova_vote?.toLowerCase()}">${trade.nova_vote || 'N/A'}</div>
+                                <div class="agent-confidence">${trade.nova_confidence || 0}% confidence</div>
+                            </div>
+                            <div class="agent-vote">
+                                <div class="agent-name">Orion (DeepSeek)</div>
+                                <div class="agent-decision ${trade.orion_vote?.toLowerCase()}">${trade.orion_vote || 'N/A'}</div>
+                                <div class="agent-confidence">${trade.orion_confidence || 0}% confidence</div>
+                            </div>
+                            <div class="agent-vote">
+                                <div class="agent-name">Flash (StepFun)</div>
+                                <div class="agent-decision ${trade.flash_vote?.toLowerCase()}">${trade.flash_vote || 'N/A'}</div>
+                                <div class="agent-confidence">${trade.flash_confidence || 0}% confidence</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rationale -->
+                    <div class="rationale">
+                        <div class="rationale-label">📋 Rationale</div>
+                        ${trade.rationale || 'No rationale provided'}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Initial load
+        loadTradeData();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadTradeData, 30000);
+    </script>
+</body>
+</html>
