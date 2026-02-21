@@ -1,2 +1,10 @@
 trading/.env
 .env
+
+# Credentials and secrets
+*.env
+*.key
+**/credentials.json
+**/secrets/
+**/*secret*
+**/*password*
