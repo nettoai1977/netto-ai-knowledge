@@ -1,506 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trinity Trading Dashboard - Multi-Timeframe Matrix</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            padding: 20px;
-        }
-        .container { max-width: 1600px; margin: 0 auto; }
-        
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        h1 { font-size: 28px; color: #00d4ff; }
-        .status-badge {
-            background: #00ff88;
-            color: #000;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .status-badge.inactive { background: #666; }
-        
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        .nav-tab {
-            background: #1a1a1a;
-            border: none;
-            color: #888;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        .nav-tab:hover { background: #252525; color: #fff; }
-        .nav-tab.active {
-            background: #00d4ff;
-            color: #000;
-            font-weight: bold;
-        }
-        
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
-        .stat-value { font-size: 24px; font-weight: bold; color: #00d4ff; }
-        .stat-label { font-size: 11px; color: #666; margin-top: 5px; text-transform: uppercase; }
-        .stat-value.positive { color: #00ff88; }
-        .stat-value.negative { color: #ff4444; }
-        
-        /* Timeframe Grid */
-        .timeframe-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .timeframe-card {
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 20px;
-            border-top: 3px solid #00d4ff;
-        }
-        .timeframe-card.daily { border-top-color: #00d4ff; }
-        .timeframe-card.fourh { border-top-color: #00ff88; }
-        .timeframe-card.oneh { border-top-color: #ffaa00; }
-        .timeframe-card.fifteenm { border-top-color: #ff4444; }
-        
-        .tf-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .tf-title { font-size: 16px; font-weight: bold; }
-        .tf-schedule { font-size: 11px; color: #666; }
-        
-        .tf-content { font-size: 13px; color: #aaa; }
-        .tf-metric {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        .tf-metric:last-child { border-bottom: none; }
-        .metric-label { color: #666; }
-        .metric-value { font-weight: 500; }
-        
-        /* Watchlist Table */
-        .watchlist-section { margin-bottom: 30px; }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        h2 { font-size: 18px; color: #888; }
-        
-        .table-container {
-            background: #1a1a1a;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #2a2a2a; }
-        th {
-            background: #252525;
-            color: #666;
-            font-weight: 500;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-        td { font-size: 13px; }
-        tr:hover { background: #252525; }
-        
-        .trend-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        .trend-bullish { background: #00ff8820; color: #00ff88; }
-        .trend-bearish { background: #ff444420; color: #ff4444; }
-        .trend-ranging { background: #66620; color: #888; }
-        
-        .signal-badge {
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .signal-long { background: #00ff88; color: #000; }
-        .signal-short { background: #ff4444; color: #fff; }
-        .signal-wait { background: #333; color: #888; }
-        
-        /* Trade Log */
-        .trade-log { max-height: 600px; overflow-y: auto; }
-        .trade-item {
-            background: #1a1a1a;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 10px;
-            border-left: 4px solid #333;
-        }
-        .trade-item.long { border-left-color: #00ff88; }
-        .trade-item.short { border-left-color: #ff4444; }
-        
-        .trade-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        .trade-symbol { font-size: 18px; font-weight: bold; }
-        .trade-time { color: #666; font-size: 12px; }
-        
-        .trade-details {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-        }
-        .detail-label { font-size: 11px; color: #666; text-transform: uppercase; }
-        .detail-value { font-size: 15px; margin-top: 4px; }
-        
-        /* Confluence Score */
-        .confluence-bar {
-            height: 8px;
-            background: #333;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-        .confluence-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-        .confluence-low { background: #ff4444; }
-        .confluence-mid { background: #ffaa00; }
-        .confluence-high { background: #00ff88; }
-        
-        /* Warnings */
-        .warning {
-            background: #ff444420;
-            border: 1px solid #ff4444;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .warning-title { color: #ff4444; font-weight: bold; margin-bottom: 8px; }
-        
-        /* Radar Status */
-        .radar-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 15px;
-            background: #00ff8820;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .radar-dot {
-            width: 10px;
-            height: 10px;
-            background: #00ff88;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            color: #666;
-            font-size: 12px;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #2a2a2a;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trinity Trading Dashboard - Multi-Timeframe Matrix</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; padding: 20px; }
+.container { max-width: 1600px; margin: 0 auto; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #2a2a2a; }
+h1 { font-size: 28px; color: #00d4ff; }
+.status-badge { background: #00ff88; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+.status-badge.inactive { background: #666; }
+.nav-tabs { display: flex; gap: 10px; margin-bottom: 30px; }
+.nav-tab { background: #1a1a1a; border: none; color: #888; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.3s; }
+.nav-tab:hover { background: #252525; color: #fff; }
+.nav-tab.active { background: #00d4ff; color: #000; font-weight: bold; }
+.stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; margin-bottom: 30px; }
+.stat-card { background: #1a1a1a; border-radius: 12px; padding: 20px; text-align: center; }
+.stat-value { font-size: 24px; font-weight: bold; color: #00d4ff; }
+.stat-label { font-size: 11px; color: #666; margin-top: 5px; text-transform: uppercase; }
+.stat-value.positive { color: #00ff88; }
+.stat-value.negative { color: #ff4444; }
+.timeframe-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+.timeframe-card { background: #1a1a1a; border-radius: 12px; padding: 20px; border-top: 3px solid #00d4ff; }
+.timeframe-card.daily { border-top-color: #00d4ff; }
+.timeframe-card.fourh { border-top-color: #00ff88; }
+.timeframe-card.oneh { border-top-color: #ffaa00; }
+.timeframe-card.fifteenm { border-top-color: #ff4444; }
+.tf-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.tf-title { font-size: 16px; font-weight: bold; }
+.tf-schedule { font-size: 11px; color: #666; }
+.tf-content { font-size: 13px; color: #aaa; }
+.tf-metric { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a2a2a; }
+.tf-metric:last-child { border-bottom: none; }
+.metric-label { color: #666; }
+.metric-value { font-weight: 500; }
+.watchlist-section { margin-bottom: 30px; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+h2 { font-size: 18px; color: #888; }
+.table-container { background: #1a1a1a; border-radius: 12px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #2a2a2a; }
+th { background: #252525; color: #666; font-weight: 500; font-size: 11px; text-transform: uppercase; }
+td { font-size: 13px; }
+tr:hover { background: #252525; }
+.trend-badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+.trend-bullish { background: #00ff8820; color: #00ff88; }
+.trend-bearish { background: #ff444420; color: #ff4444; }
+.trend-ranging { background: #66620; color: #888; }
+.signal-badge { padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+.signal-long { background: #00ff88; color: #000; }
+.signal-short { background: #ff4444; color: #fff; }
+.signal-wait { background: #333; color: #888; }
+.trade-log { max-height: 600px; overflow-y: auto; }
+.trade-item { background: #1a1a1a; border-radius: 8px; padding: 20px; margin-bottom: 10px; border-left: 4px solid #333; }
+.trade-item.long { border-left-color: #00ff88; }
+.trade-item.short { border-left-color: #ff4444; }
+.trade-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+.trade-symbol { font-size: 18px; font-weight: bold; }
+.trade-time { color: #666; font-size: 12px; }
+.trade-details { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
+.detail-label { font-size: 11px; color: #666; text-transform: uppercase; }
+.detail-value { font-size: 15px; margin-top: 4px; }
+.confluence-bar { height: 8px; background: #333; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.confluence-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+.confluence-low { background: #ff4444; }
+.confluence-mid { background: #ffaa00; }
+.confluence-high { background: #00ff88; }
+.warning { background: #ff444420; border: 1px solid #ff4444; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+.warning-title { color: #ff4444; font-weight: bold; margin-bottom: 8px; }
+.radar-status { display: flex; align-items: center; gap: 10px; padding: 10px 15px; background: #00ff8820; border-radius: 8px; margin-bottom: 20px; }
+.radar-dot { width: 10px; height: 10px; background: #00ff88; border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.footer { text-align: center; color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #2a2a2a; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div>
-                <h1>🎯 Trinity Trading Dashboard</h1>
-                <div style="color: #666; font-size: 14px; margin-top: 5px;">Multi-Timeframe Market Matrix</div>
-            </div>
-            <div class="status-badge" id="system-status">🟢 SYSTEM ONLINE</div>
-        </div>
-        
-        <!-- Radar Status -->
-        <div class="radar-status">
-            <div class="radar-dot"></div>
-            <span>📡 <strong>Radar Agent Active</strong> — Anti-Hallucination Protocol Enabled</span>
-        </div>
-        
-        <!-- Navigation -->
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showTab('matrix')">📊 Market Matrix</button>
-            <button class="nav-tab" onclick="showTab('signals')">🚨 Signals</button>
-            <button class="nav-tab" onclick="showTab('positions')">💼 Positions</button>
-            <button class="nav-tab" onclick="showTab('history')">📜 Trade History</button>
-        </div>
-        
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="capital">$10,000</div>
-                <div class="stat-label">Paper Capital</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="total-pnl">$0.00</div>
-                <div class="stat-label">Total P&L</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="win-rate">0%</div>
-                <div class="stat-label">Win Rate</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="total-trades">0</div>
-                <div class="stat-label">Total Trades</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="signals-today">0</div>
-                <div class="stat-label">Signals Today</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="confluence-avg">0</div>
-                <div class="stat-label">Avg Confluence</div>
-            </div>
-        </div>
-        
-        <!-- Timeframe Cards -->
-        <div class="timeframe-grid">
-            <!-- Daily Macro -->
-            <div class="timeframe-card daily">
-                <div class="tf-header">
-                    <div class="tf-title">📅 Daily Macro</div>
-                    <div class="tf-schedule">7:00 AM NZT</div>
-                </div>
-                <div class="tf-content">
-                    <div class="tf-metric">
-                        <span class="metric-label">Last Run</span>
-                        <span class="metric-value" id="daily-last-run">-</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Macro Bias</span>
-                        <span class="metric-value" id="daily-bias">NEUTRAL</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">BTC Trend</span>
-                        <span class="metric-value" id="btc-trend">-</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Fear & Greed</span>
-                        <span class="metric-value" id="fear-greed">-</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 4-Hour Outlook -->
-            <div class="timeframe-card fourh">
-                <div class="tf-header">
-                    <div class="tf-title">⏰ 4H Outlook</div>
-                    <div class="tf-schedule">Every 4 Hours</div>
-                </div>
-                <div class="tf-content">
-                    <div class="tf-metric">
-                        <span class="metric-label">Last Run</span>
-                        <span class="metric-value" id="4h-last-run">-</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">4H Alignment</span>
-                        <span class="metric-value" id="4h-alignment">-</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Divergences</span>
-                        <span class="metric-value" id="4h-divergences">0</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Key Levels</span>
-                        <span class="metric-value" id="4h-levels">-</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 1-Hour Shift -->
-            <div class="timeframe-card oneh">
-                <div class="tf-header">
-                    <div class="tf-title">🕐 1H Shift</div>
-                    <div class="tf-schedule">Every Hour</div>
-                </div>
-                <div class="tf-content">
-                    <div class="tf-metric">
-                        <span class="metric-label">Last Run</span>
-                        <span class="metric-value" id="1h-last-run">-</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Volume Spikes</span>
-                        <span class="metric-value" id="1h-volume-spikes">0</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">S/R Breaks</span>
-                        <span class="metric-value" id="1h-sr-breaks">0</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Exhaustion</span>
-                        <span class="metric-value" id="1h-exhaustion">-</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 15-Min Tactical -->
-            <div class="timeframe-card fifteenm">
-                <div class="tf-header">
-                    <div class="tf-title">⚡ 15m Tactical</div>
-                    <div class="tf-schedule">Every 15 Min</div>
-                </div>
-                <div class="tf-content">
-                    <div class="tf-metric">
-                        <span class="metric-label">Last Run</span>
-                        <span class="metric-value" id="15m-last-run">-</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Signals</span>
-                        <span class="metric-value" id="15m-signals">0</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Top Confluence</span>
-                        <span class="metric-value" id="15m-top-conf">-</span>
-                    </div>
-                    <div class="tf-metric">
-                        <span class="metric-label">Next Scan</span>
-                        <span class="metric-value" id="15m-next">-</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Watchlist Section -->
-        <div class="watchlist-section">
-            <div class="section-header">
-                <h2>📊 Market Watchlist</h2>
-                <span style="color: #666; font-size: 12px;">Live CCXT Data • All data verified by Radar</span>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Symbol</th>
-                            <th>Price</th>
-                            <th>24h Change</th>
-                            <th>Daily Trend</th>
-                            <th>4H Trend</th>
-                            <th>RSI (D)</th>
-                            <th>ATR %</th>
-                            <th>Signal</th>
-                            <th>Confluence</th>
-                        </tr>
-                    </thead>
-                    <tbody id="watchlist-body">
-                        <tr><td colspan="9" style="text-align: center; color: #666;">Loading live data...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <!-- Active Signals -->
-        <div class="watchlist-section">
-            <div class="section-header">
-                <h2>🚨 Active Signals (Paper Trading)</h2>
-                <span style="color: #ffaa00; font-size: 12px;">⚠️ Human confirmation required before execution</span>
-            </div>
-            <div id="signals-container">
-                <div style="text-align: center; color: #666; padding: 40px; background: #1a1a1a; border-radius: 12px;">
-                    No active signals. Waiting for high-probability setups (Confluence 6+/10)...
-                </div>
-            </div>
-        </div>
-        
-        <!-- Footer -->
-        <div class="footer">
-            <p>Trinity Trading System v2.0 • Multi-Timeframe Market Matrix</p>
-            <p>Daily Macro (7:00 AM) • 4H Outlook (Every 4h) • 1H Shift (Hourly) • 15m Tactical (Every 15m)</p>
-            <p style="margin-top: 10px;">Last updated: <span id="last-update">-</span> • Auto-refresh: 30s</p>
-        </div>
-    </div>
+<div class="container">
+<!-- Header -->
+<div class="header">
+<div>
+<h1>🎯 Trinity Trading Dashboard</h1>
+<div style="color: #666; font-size: 14px; margin-top: 5px;">Multi-Timeframe Market Matrix</div>
+</div>
+<div class="status-badge" id="system-status">🟢 SYSTEM ONLINE</div>
+</div>
+
+<!-- Radar Status -->
+<div class="radar-status">
+<div class="radar-dot"></div>
+<span>📡 <strong>Radar Agent Active</strong> — Anti-Hallucination Protocol Enabled</span>
+</div>
+
+<!-- Navigation -->
+<div class="nav-tabs">
+<button class="nav-tab active" onclick="showTab('matrix')">📊 Market Matrix</button>
+<button class="nav-tab" onclick="showTab('signals')">🚨 Signals</button>
+<button class="nav-tab" onclick="showTab('positions')">💼 Positions</button>
+<button class="nav-tab" onclick="showTab('history')">📜 Trade History</button>
+</div>
+
+<!-- Stats Grid -->
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-value" id="capital">$4,999.53</div>
+<div class="stat-label">Paper Capital</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="total-pnl">$0.00</div>
+<div class="stat-label">Total P&L</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="win-rate">0%</div>
+<div class="stat-label">Win Rate</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="total-trades">5</div>
+<div class="stat-label">Open Positions</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="signals-today">10</div>
+<div class="stat-label">Signals Today</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="confluence-avg">8.0</div>
+<div class="stat-label">Avg Confluence</div>
+</div>
+</div>
+
+<!-- Timeframe Cards -->
+<div class="timeframe-grid">
+<!-- Daily Macro -->
+<div class="timeframe-card daily">
+<div class="tf-header">
+<div class="tf-title">📅 Daily Macro</div>
+<div class="tf-schedule">7:00 AM NZT</div>
+</div>
+<div class="tf-content">
+<div class="tf-metric">
+<span class="metric-label">Last Run</span>
+<span class="metric-value" id="daily-last-run">-</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Macro Bias</span>
+<span class="metric-value" id="daily-bias">BEARISH</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">BTC Trend</span>
+<span class="metric-value" id="btc-trend">DOWN</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Fear & Greed</span>
+<span class="metric-value" id="fear-greed">-</span>
+</div>
+</div>
+</div>
+
+<!-- 4-Hour Outlook -->
+<div class="timeframe-card fourh">
+<div class="tf-header">
+<div class="tf-title">⏰ 4H Outlook</div>
+<div class="tf-schedule">Every 4 Hours</div>
+</div>
+<div class="tf-content">
+<div class="tf-metric">
+<span class="metric-label">Last Run</span>
+<span class="metric-value" id="4h-last-run">-</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">4H Alignment</span>
+<span class="metric-value" id="4h-alignment">BEARISH</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Divergences</span>
+<span class="metric-value" id="4h-divergences">0</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Key Levels</span>
+<span class="metric-value" id="4h-levels">Testing support</span>
+</div>
+</div>
+</div>
+
+<!-- 1-Hour Shift -->
+<div class="timeframe-card oneh">
+<div class="tf-header">
+<div class="tf-title">🕐 1H Shift</div>
+<div class="tf-schedule">Every Hour</div>
+</div>
+<div class="tf-content">
+<div class="tf-metric">
+<span class="metric-label">Last Run</span>
+<span class="metric-value" id="1h-last-run">-</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Volume Spikes</span>
+<span class="metric-value" id="1h-volume-spikes">0</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">S/R Breaks</span>
+<span class="metric-value" id="1h-sr-breaks">0</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Exhaustion</span>
+<span class="metric-value" id="1h-exhaustion">None</span>
+</div>
+</div>
+</div>
+
+<!-- 15-Min Tactical -->
+<div class="timeframe-card fifteenm">
+<div class="tf-header">
+<div class="tf-title">⚡ 15m Tactical</div>
+<div class="tf-schedule">Every 15 Min</div>
+</div>
+<div class="tf-content">
+<div class="tf-metric">
+<span class="metric-label">Last Run</span>
+<span class="metric-value" id="15m-last-run">-</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Signals</span>
+<span class="metric-value" id="15m-signals">10</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Top Confluence</span>
+<span class="metric-value" id="15m-top-conf">8/10</span>
+</div>
+<div class="tf-metric">
+<span class="metric-label">Next Scan</span>
+<span class="metric-value" id="15m-next">Auto</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Watchlist Section -->
+<div class="watchlist-section">
+<div class="section-header">
+<h2>📊 Market Watchlist</h2>
+<span style="color: #666; font-size: 12px;">Live CCXT Data • All data verified by Radar</span>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Price</th>
+<th>24h Change</th>
+<th>Daily Trend</th>
+<th>4H Trend</th>
+<th>RSI (D)</th>
+<th>ATR %</th>
+<th>Signal</th>
+<th>Confluence</th>
+</tr>
+</thead>
+<tbody id="watchlist-body">
+<tr><td colspan="9" style="text-align: center; color: #666;">Loading live data...</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Active Signals -->
+<div class="watchlist-section">
+<div class="section-header">
+<h2>🚨 Active Signals (Paper Trading)</h2>
+<span style="color: #ffaa00; font-size: 12px;">⚠️ Human confirmation required before execution</span>
+</div>
+<div id="signals-container">
+<div style="text-align: center; color: #666; padding: 40px; background: #1a1a1a; border-radius: 12px;">
+No active signals. Waiting for high-probability setups (Confluence 6+/10)...
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+<p>Trinity Trading System v2.0 • Multi-Timeframe Market Matrix</p>
+<p>Daily Macro (7:00 AM) • 4H Outlook (Every 4h) • 1H Shift (Hourly) • 15m Tactical (Every 15m)</p>
+<p style="margin-top: 10px;">Last updated: <span id="last-update">-</span> • Auto-refresh: 15s</p>
+</div>
+</div>
+
+<script>
+const API_URL = '/api/dashboard';
+let dashboardData = null;
+
+function showTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+async function loadMatrixData() {
+  try {
+    const response = await fetch(API_URL);
+    dashboardData = await response.json();
     
-    <script>
-        // Tab navigation
-        function showTab(tab) {
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            // Tab content switching would go here
-        }
-        
-        // Load matrix data
-        async function loadMatrixData() {
-            try {
-                // Load latest reports
-                const reports = await fetch('matrix-data/').then(r => r.json()).catch(() => []);
-                
-                // Update UI
-                updateWatchlist();
-                updateSignals();
-                updateTimeframes();
-                
-                document.getElementById('last-update').textContent = new Date().toLocaleTimeString('en-NZ');
-            } catch (e) {
-                console.error('Error loading data:', e);
-            }
-        }
-        
-        function updateWatchlist() {
-            // This would load from matrix-data files
-            const tbody = document.getElementById('watchlist-body');
-            // Placeholder - real data loaded from reports
-        }
-        
-        function updateSignals() {
-            // Load signals from latest 15m report
-        }
-        
-        function updateTimeframes() {
-            // Update timeframe cards with latest data
-        }
-        
-        // Initial load
-        loadMatrixData();
-        
-        // Auto-refresh
-        setInterval(loadMatrixData, 30000);
-    </script>
+    updateStats();
+    updateWatchlist();
+    updateSignals();
+    updateTimeframes();
+    
+    document.getElementById('last-update').textContent = new Date().toLocaleTimeString('en-NZ');
+  } catch (e) {
+    console.error('Error loading data:', e);
+    document.getElementById('last-update').textContent = 'Error - Start server: node dashboard-server.js';
+  }
+}
+
+function updateStats() {
+  if (!dashboardData) return;
+  const stats = dashboardData.stats;
+  
+  document.getElementById('capital').textContent = '$' + stats.capital.toFixed(2);
+  document.getElementById('total-pnl').textContent = '$' + stats.totalPnl.toFixed(2);
+  document.getElementById('win-rate').textContent = stats.winRate + '%';
+  document.getElementById('total-trades').textContent = stats.totalTrades;
+  document.getElementById('signals-today').textContent = stats.signalsToday;
+  document.getElementById('confluence-avg').textContent = stats.avgConfluence;
+}
+
+function updateWatchlist() {
+  if (!dashboardData) return;
+  const tbody = document.getElementById('watchlist-body');
+  const watchlist = dashboardData.watchlist;
+  
+  if (!watchlist || watchlist.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No signals available</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = watchlist.map(s => {
+    const trendClass = s.side === 'LONG' ? 'trend-bullish' : 'trend-bearish';
+    const signalClass = s.confluence >= 6 ? (s.side === 'LONG' ? 'signal-long' : 'signal-short') : 'signal-wait';
+    const confClass = s.confluence >= 7 ? 'confluence-high' : s.confluence >= 5 ? 'confluence-mid' : 'confluence-low';
+    const decimals = parseFloat(s.entry) < 1 ? 4 : 2;
+    
+    return `
+      <tr>
+        <td><strong>${s.symbol}</strong></td>
+        <td>$${parseFloat(s.entry).toFixed(decimals)}</td>
+        <td class="${s.side === 'SHORT' ? 'negative' : 'positive'}">${s.side === 'SHORT' ? '↓' : '↑'}</td>
+        <td><span class="trend-badge ${trendClass}">${s.side}</span></td>
+        <td><span class="trend-badge ${trendClass}">${s.side}</span></td>
+        <td>-</td>
+        <td>${s.riskPercent}%</td>
+        <td><span class="signal-badge ${signalClass}">${s.confluence >= 6 ? s.side : 'WAIT'}</span></td>
+        <td>
+          <div>${s.confluence}/10</div>
+          <div class="confluence-bar">
+            <div class="confluence-fill ${confClass}" style="width: ${s.confluence * 10}%"></div>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function updateSignals() {
+  if (!dashboardData) return;
+  const container = document.getElementById('signals-container');
+  const signals = dashboardData.signals;
+  
+  if (!signals || signals.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; color: #666; padding: 40px; background: #1a1a1a; border-radius: 12px;">
+        No active signals. Waiting for high-probability setups (Confluence 6+/10)...
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = signals.map(s => {
+    const isLong = s.side === 'LONG';
+    const confClass = s.confluence >= 7 ? 'confluence-high' : 'confluence-mid';
+    const decimals = parseFloat(s.entry) < 1 ? 4 : 2;
+    
+    return `
+      <div class="trade-item ${isLong ? 'long' : 'short'}">
+        <div class="trade-header">
+          <div class="trade-symbol">${s.symbol} ${s.side}</div>
+          <div class="trade-time">${new Date(s.timestamp).toLocaleTimeString('en-NZ')}</div>
+        </div>
+        <div class="trade-details">
+          <div>
+            <div class="detail-label">Entry</div>
+            <div class="detail-value">$${parseFloat(s.entry).toFixed(decimals)}</div>
+          </div>
+          <div>
+            <div class="detail-label">Stop Loss</div>
+            <div class="detail-value">$${parseFloat(s.stopLoss).toFixed(decimals)}</div>
+          </div>
+          <div>
+            <div class="detail-label">Take Profit</div>
+            <div class="detail-value">$${parseFloat(s.takeProfit).toFixed(decimals)}</div>
+          </div>
+          <div>
+            <div class="detail-label">Risk/Reward</div>
+            <div class="detail-value">${s.riskRewardRatio}:1</div>
+          </div>
+          <div>
+            <div class="detail-label">Confluence</div>
+            <div class="detail-value">${s.confluence}/10</div>
+            <div class="confluence-bar" style="width: 100px; margin-top: 4px;">
+              <div class="confluence-fill ${confClass}" style="width: ${s.confluence * 10}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateTimeframes() {
+  if (!dashboardData) return;
+  const tf = dashboardData.timeframes;
+  
+  document.getElementById('daily-last-run').textContent = tf.daily.lastRun !== '-' 
+    ? new Date(tf.daily.lastRun).toLocaleTimeString('en-NZ') : '-';
+  document.getElementById('daily-bias').textContent = tf.daily.bias;
+  document.getElementById('btc-trend').textContent = tf.daily.btcTrend;
+  
+  document.getElementById('4h-last-run').textContent = tf.fourH.lastRun !== '-'
+    ? new Date(tf.fourH.lastRun).toLocaleTimeString('en-NZ') : '-';
+  document.getElementById('4h-alignment').textContent = tf.fourH.alignment;
+  document.getElementById('4h-levels').textContent = tf.fourH.keyLevels;
+  
+  document.getElementById('1h-last-run').textContent = tf.oneH.lastRun !== '-'
+    ? new Date(tf.oneH.lastRun).toLocaleTimeString('en-NZ') : '-';
+  document.getElementById('1h-volume-spikes').textContent = tf.oneH.volumeSpikes;
+  document.getElementById('1h-exhaustion').textContent = tf.oneH.exhaustion;
+  
+  document.getElementById('15m-last-run').textContent = tf.fifteenM.lastRun !== '-'
+    ? new Date(tf.fifteenM.lastRun).toLocaleTimeString('en-NZ') : '-';
+  document.getElementById('15m-signals').textContent = tf.fifteenM.signals;
+  document.getElementById('15m-top-conf').textContent = tf.fifteenM.topConfluence + '/10';
+}
+
+// Initial load
+loadMatrixData();
+
+// Auto-refresh every 15 seconds
+setInterval(loadMatrixData, 15000);
+</script>
 </body>
 </html>
