@@ -1,0 +1,106 @@
+{
+  "type": "4h-outlook",
+  "timestamp": "2026-02-21T23:13:28.203Z",
+  "data": [
+    {
+      "symbol": "BTC/USDT",
+      "trend4h": "BULLISH",
+      "trendDaily": "BEARISH",
+      "aligned": false,
+      "macdDivergence": true,
+      "nearResistance": false,
+      "nearSupport": false,
+      "price": 67982.83
+    },
+    {
+      "symbol": "ETH/USDT",
+      "trend4h": "BULLISH",
+      "trendDaily": "BEARISH",
+      "aligned": false,
+      "macdDivergence": true,
+      "nearResistance": false,
+      "nearSupport": true,
+      "price": 1972.74
+    },
+    {
+      "symbol": "SOL/USDT",
+      "trend4h": "BULLISH",
+      "trendDaily": "BEARISH",
+      "aligned": false,
+      "macdDivergence": true,
+      "nearResistance": false,
+      "nearSupport": false,
+      "price": 85.21
+    },
+    {
+      "symbol": "BNB/USDT",
+      "trend4h": "BULLISH",
+      "trendDaily": "BEARISH",
+      "aligned": false,
+      "macdDivergence": true,
+      "nearResistance": false,
+      "nearSupport": true,
+      "price": 625.49
+    },
+    {
+      "symbol": "XRP/USDT",
+      "trend4h": "BEARISH",
+      "trendDaily": "BEARISH",
+      "aligned": true,
+      "macdDivergence": true,
+      "nearResistance": false,
+      "nearSupport": false,
+      "price": 1.4309
+    },
+    {
+      "symbol": "DOGE/USDT",
+      "trend4h": "BEARISH",
+      "trendDaily": "BEARISH",
+      "aligned": true,
+      "macdDivergence": true,
+      "nearResistance": true,
+      "nearSupport": false,
+      "price": 0.09888
+    },
+    {
+      "symbol": "ADA/USDT",
+      "trend4h": "BULLISH",
+      "trendDaily": "BEARISH",
+      "aligned": false,
+      "macdDivergence": true,
+      "nearResistance": true,
+      "nearSupport": false,
+      "price": 0.2798
+    },
+    {
+      "symbol": "AVAX/USDT",
+      "trend4h": "BULLISH",
+      "trendDaily": "BEARISH",
+      "aligned": false,
+      "macdDivergence": true,
+      "nearResistance": false,
+      "nearSupport": false,
+      "price": 9.11
+    },
+    {
+      "symbol": "LINK/USDT",
+      "trend4h": "BULLISH",
+      "trendDaily": "BEARISH",
+      "aligned": false,
+      "macdDivergence": true,
+      "nearResistance": false,
+      "nearSupport": false,
+      "price": 8.87
+    },
+    {
+      "symbol": "DOT/USDT",
+      "trend4h": "BULLISH",
+      "trendDaily": "BEARISH",
+      "aligned": false,
+      "macdDivergence": true,
+      "nearResistance": false,
+      "nearSupport": false,
+      "price": 1.356
+    }
+  ]
+}

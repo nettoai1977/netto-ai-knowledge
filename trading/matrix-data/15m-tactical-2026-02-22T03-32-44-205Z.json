@@ -1,0 +1,181 @@
+{
+  "type": "15m-tactical",
+  "timestamp": "2026-02-22T03:32:44.206Z",
+  "data": [
+    {
+      "symbol": "BTC/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "67898.37000000",
+      "stopLoss": "68097.85928571",
+      "takeProfit": "67499.39142857",
+      "riskPercent": "0.29",
+      "rewardPercent": "0.59",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:35.349Z"
+    },
+    {
+      "symbol": "ETH/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "Near support"
+      ],
+      "entry": "1971.02000000",
+      "stopLoss": "1977.63607143",
+      "takeProfit": "1957.78785714",
+      "riskPercent": "0.34",
+      "rewardPercent": "0.67",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:36.298Z"
+    },
+    {
+      "symbol": "SOL/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "84.85000000",
+      "stopLoss": "85.27107143",
+      "takeProfit": "84.00785714",
+      "riskPercent": "0.50",
+      "rewardPercent": "0.99",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:37.216Z"
+    },
+    {
+      "symbol": "BNB/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "621.84000000",
+      "stopLoss": "623.86285714",
+      "takeProfit": "617.79428571",
+      "riskPercent": "0.33",
+      "rewardPercent": "0.65",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:38.105Z"
+    },
+    {
+      "symbol": "XRP/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "1.42060000",
+      "stopLoss": "1.42709286",
+      "takeProfit": "1.40761429",
+      "riskPercent": "0.46",
+      "rewardPercent": "0.91",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:39.058Z"
+    },
+    {
+      "symbol": "DOGE/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "0.09717000",
+      "stopLoss": "0.09770143",
+      "takeProfit": "0.09610714",
+      "riskPercent": "0.55",
+      "rewardPercent": "1.09",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:40.299Z"
+    },
+    {
+      "symbol": "ADA/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "0.27640000",
+      "stopLoss": "0.27809286",
+      "takeProfit": "0.27301429",
+      "riskPercent": "0.61",
+      "rewardPercent": "1.22",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:41.169Z"
+    },
+    {
+      "symbol": "AVAX/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "9.03000000",
+      "stopLoss": "9.08357143",
+      "takeProfit": "8.92285714",
+      "riskPercent": "0.59",
+      "rewardPercent": "1.19",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:42.049Z"
+    },
+    {
+      "symbol": "LINK/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "8.84000000",
+      "stopLoss": "8.89357143",
+      "takeProfit": "8.73285714",
+      "riskPercent": "0.61",
+      "rewardPercent": "1.21",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:42.962Z"
+    },
+    {
+      "symbol": "DOT/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "1.35000000",
+      "stopLoss": "1.35717857",
+      "takeProfit": "1.33564286",
+      "riskPercent": "0.53",
+      "rewardPercent": "1.06",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T03:32:44.204Z"
+    }
+  ]
+}

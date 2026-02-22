@@ -1,0 +1,41 @@
+{
+  "type": "15m-tactical",
+  "timestamp": "2026-02-21T22:15:28.619Z",
+  "data": [
+    {
+      "symbol": "DOGE/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "0.09915000",
+      "stopLoss": "0.09956250",
+      "takeProfit": "0.09832500",
+      "riskPercent": "0.42",
+      "rewardPercent": "0.83",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-21T22:15:24.345Z"
+    },
+    {
+      "symbol": "ADA/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "0.28040000",
+      "stopLoss": "0.28172857",
+      "takeProfit": "0.27774286",
+      "riskPercent": "0.47",
+      "rewardPercent": "0.95",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-21T22:15:25.436Z"
+    }
+  ]
+}

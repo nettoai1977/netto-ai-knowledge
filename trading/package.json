@@ -1,0 +1,16 @@
+{
+  "name": "trading",
+  "version": "1.0.0",
+  "description": "Multi-agent cryptocurrency trading system based on research from three creators: - **Michael Automates** - OpenClaw + Hyperliquid workflow - **Aaron Dishner** - TBO indicator, cycle degradation, new listings - **Across the Rubicon** - 7-agent architecture, circuit breakers, Radar agent",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "ccxt": "^4.5.39"
+  }
+}

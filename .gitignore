@@ -8,3 +8,6 @@ trading/.env
 **/secrets/
 **/*secret*
 **/*password*
+node_modules/
+trading/__pycache__/
+trading/matrix-data/

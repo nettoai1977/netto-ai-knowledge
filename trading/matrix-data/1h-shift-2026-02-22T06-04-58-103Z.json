@@ -1,0 +1,30 @@
+{
+  "type": "1h-shift",
+  "timestamp": "2026-02-22T06:04:58.103Z",
+  "data": [
+    {
+      "symbol": "XRP/USDT",
+      "volumeSpike": false,
+      "supportBreak": true,
+      "resistanceBreak": false,
+      "exhaustion": false,
+      "price": 1.4236
+    },
+    {
+      "symbol": "DOGE/USDT",
+      "volumeSpike": false,
+      "supportBreak": true,
+      "resistanceBreak": false,
+      "exhaustion": false,
+      "price": 0.0971
+    },
+    {
+      "symbol": "ADA/USDT",
+      "volumeSpike": false,
+      "supportBreak": true,
+      "resistanceBreak": false,
+      "exhaustion": false,
+      "price": 0.2759
+    }
+  ]
+}

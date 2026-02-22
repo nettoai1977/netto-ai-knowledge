@@ -1,0 +1,163 @@
+{
+  "type": "15m-tactical",
+  "timestamp": "2026-02-22T04:16:24.766Z",
+  "data": [
+    {
+      "symbol": "BTC/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "68037.15000000",
+      "stopLoss": "68212.45178571",
+      "takeProfit": "67686.54642857",
+      "riskPercent": "0.26",
+      "rewardPercent": "0.52",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:16.003Z"
+    },
+    {
+      "symbol": "SOL/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "85.16000000",
+      "stopLoss": "85.55857143",
+      "takeProfit": "84.36285714",
+      "riskPercent": "0.47",
+      "rewardPercent": "0.94",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:18.119Z"
+    },
+    {
+      "symbol": "BNB/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "621.87000000",
+      "stopLoss": "623.67107143",
+      "takeProfit": "618.26785714",
+      "riskPercent": "0.29",
+      "rewardPercent": "0.58",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:19.009Z"
+    },
+    {
+      "symbol": "XRP/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "1.42390000",
+      "stopLoss": "1.42988929",
+      "takeProfit": "1.41192143",
+      "riskPercent": "0.42",
+      "rewardPercent": "0.84",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:19.908Z"
+    },
+    {
+      "symbol": "DOGE/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "0.09726000",
+      "stopLoss": "0.09772714",
+      "takeProfit": "0.09632571",
+      "riskPercent": "0.48",
+      "rewardPercent": "0.96",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:20.807Z"
+    },
+    {
+      "symbol": "ADA/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "0.27730000",
+      "stopLoss": "0.27872500",
+      "takeProfit": "0.27445000",
+      "riskPercent": "0.51",
+      "rewardPercent": "1.03",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:21.718Z"
+    },
+    {
+      "symbol": "AVAX/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "9.04000000",
+      "stopLoss": "9.08928571",
+      "takeProfit": "8.94142857",
+      "riskPercent": "0.55",
+      "rewardPercent": "1.09",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:22.910Z"
+    },
+    {
+      "symbol": "LINK/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "8.86000000",
+      "stopLoss": "8.90928571",
+      "takeProfit": "8.76142857",
+      "riskPercent": "0.56",
+      "rewardPercent": "1.11",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:23.825Z"
+    },
+    {
+      "symbol": "DOT/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "1.35400000",
+      "stopLoss": "1.36053571",
+      "takeProfit": "1.34092857",
+      "riskPercent": "0.48",
+      "rewardPercent": "0.97",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T04:16:24.765Z"
+    }
+  ]
+}

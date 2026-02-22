@@ -1,0 +1,93 @@
+{
+  "type": "15m-tactical",
+  "timestamp": "2026-02-22T00:01:00.073Z",
+  "data": [
+    {
+      "symbol": "XRP/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "1.43070000",
+      "stopLoss": "1.43660357",
+      "takeProfit": "1.41889286",
+      "riskPercent": "0.41",
+      "rewardPercent": "0.83",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T00:00:55.612Z"
+    },
+    {
+      "symbol": "DOGE/USDT",
+      "side": "SHORT",
+      "confluence": 8,
+      "factors": [
+        "Daily bearish",
+        "4H aligned",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "0.09841000",
+      "stopLoss": "0.09888357",
+      "takeProfit": "0.09746286",
+      "riskPercent": "0.48",
+      "rewardPercent": "0.96",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T00:00:56.518Z"
+    },
+    {
+      "symbol": "ADA/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "0.28000000",
+      "stopLoss": "0.28121071",
+      "takeProfit": "0.27757857",
+      "riskPercent": "0.43",
+      "rewardPercent": "0.86",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T00:00:57.430Z"
+    },
+    {
+      "symbol": "AVAX/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "9.11000000",
+      "stopLoss": "9.15607143",
+      "takeProfit": "9.01785714",
+      "riskPercent": "0.51",
+      "rewardPercent": "1.01",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T00:00:58.313Z"
+    },
+    {
+      "symbol": "LINK/USDT",
+      "side": "SHORT",
+      "confluence": 6,
+      "factors": [
+        "Daily bearish",
+        "1H aligned",
+        "Near support"
+      ],
+      "entry": "8.87000000",
+      "stopLoss": "8.91178571",
+      "takeProfit": "8.78642857",
+      "riskPercent": "0.47",
+      "rewardPercent": "0.94",
+      "riskRewardRatio": "2.00",
+      "timestamp": "2026-02-22T00:00:59.214Z"
+    }
+  ]
+}
