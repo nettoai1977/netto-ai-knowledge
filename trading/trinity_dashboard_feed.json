@@ -1,18 +1,23 @@
 {
   "metadata": {
     "created": "2026-02-22T11:50:00+13:00",
-    "last_updated": "2026-02-22T11:50:00+13:00",
+    "last_updated": "2026-02-22T12:20:00+13:00",
     "version": "1.0",
-    "radar_protocol": "ACTIVE"
+    "radar_protocol": "ACTIVE",
+    "execution_mode": "LOCAL_SIMULATION",
+    "binance_testnet": "NOT_CONNECTED"
   },
   "summary": {
-    "total_trades": 0,
-    "open_positions": 1,
+    "total_trades": 2,
+    "open_positions": 2,
     "wins": 0,
     "losses": 0,
     "win_rate": 0,
     "total_pnl": 0,
-    "capital": 10000
+    "unrealized_pnl": 0.74,
+    "capital": 10000,
+    "consecutive_losses": 0,
+    "circuit_breaker_active": false
   },
   "trades": [],
   "open_positions": [
@@ -32,33 +37,77 @@
       "risk_reward_ratio": 2.0,
       "status": "OPEN",
       "radar_verified": true,
-      "last_check": "2026-02-22T11:50:15+13:00",
-      "current_price": 0.2804,
-      "unrealized_pnl_percent": 0.0,
-      "unrealized_pnl_usd": 0.0
+      "last_check": "2026-02-22T12:20:16+13:00",
+      "current_price": 0.2803,
+      "unrealized_pnl_percent": 0.04,
+      "unrealized_pnl_usd": 0.08
+    },
+    {
+      "trade_id": "TRD-002",
+      "timestamp_entry": "2026-02-22T12:01:00+13:00",
+      "asset_pair": "AVAX/USDT",
+      "side": "SHORT",
+      "confluence_score": 6,
+      "confluence_factors": ["Daily bearish", "1H aligned", "Near support"],
+      "entry_price": 9.16,
+      "stop_loss": 9.20821429,
+      "take_profit": 9.06357143,
+      "position_size_usd": 200,
+      "risk_percent": 0.53,
+      "reward_percent": 1.05,
+      "risk_reward_ratio": 2.0,
+      "status": "OPEN",
+      "radar_verified": true,
+      "last_check": "2026-02-22T12:20:16+13:00",
+      "current_price": 9.13,
+      "unrealized_pnl_percent": 0.33,
+      "unrealized_pnl_usd": 0.66
     }
   ],
-  "discord_webhook_payloads": [],
-  "_webhook_format_example": {
-    "username": "Trinity Trading Bot",
-    "avatar_url": "https://example.com/trinity-logo.png",
-    "embeds": [
-      {
-        "title": "📊 Trade Executed",
-        "color": 3447003,
-        "fields": [
-          { "name": "Pair", "value": "ADA/USDT", "inline": true },
-          { "name": "Side", "value": "SHORT", "inline": true },
-          { "name": "Confluence", "value": "6/10", "inline": true },
-          { "name": "Entry", "value": "$0.2804", "inline": true },
-          { "name": "Stop Loss", "value": "$0.2817 (0.47%)", "inline": true },
-          { "name": "Take Profit", "value": "$0.2777 (0.95%)", "inline": true },
-          { "name": "Factors", "value": "Daily bearish, 1H aligned, Near support", "inline": false },
-          { "name": "Radar Verified", "value": "✅ CCXT data confirmed", "inline": false }
-        ],
-        "footer": { "text": "Trinity Paper Trading System" },
-        "timestamp": "2026-02-22T11:31:00+13:00"
-      }
-    ]
-  }
+  "discord_webhook_payloads": [
+    {
+      "type": "TRADE_EXECUTED",
+      "username": "Trinity Trading Bot",
+      "embeds": [
+        {
+          "title": "📊 TRD-001 Executed",
+          "color": 15158332,
+          "fields": [
+            { "name": "Pair", "value": "ADA/USDT", "inline": true },
+            { "name": "Side", "value": "SHORT", "inline": true },
+            { "name": "Confluence", "value": "6/10", "inline": true },
+            { "name": "Entry", "value": "$0.2804", "inline": true },
+            { "name": "Stop Loss", "value": "$0.2817 (0.47%)", "inline": true },
+            { "name": "Take Profit", "value": "$0.2777 (0.95%)", "inline": true },
+            { "name": "Factors", "value": "Daily bearish, 1H aligned, Near support", "inline": false },
+            { "name": "Radar Verified", "value": "✅ CCXT data confirmed", "inline": false }
+          ],
+          "footer": { "text": "Trinity Paper Trading System" },
+          "timestamp": "2026-02-22T11:31:00+13:00"
+        }
+      ]
+    },
+    {
+      "type": "TRADE_EXECUTED",
+      "username": "Trinity Trading Bot",
+      "embeds": [
+        {
+          "title": "📊 TRD-002 Executed",
+          "color": 15158332,
+          "fields": [
+            { "name": "Pair", "value": "AVAX/USDT", "inline": true },
+            { "name": "Side", "value": "SHORT", "inline": true },
+            { "name": "Confluence", "value": "6/10", "inline": true },
+            { "name": "Entry", "value": "$9.16", "inline": true },
+            { "name": "Stop Loss", "value": "$9.21 (0.53%)", "inline": true },
+            { "name": "Take Profit", "value": "$9.06 (1.05%)", "inline": true },
+            { "name": "Factors", "value": "Daily bearish, 1H aligned, Near support", "inline": false },
+            { "name": "Radar Verified", "value": "✅ CCXT data confirmed", "inline": false }
+          ],
+          "footer": { "text": "Trinity Paper Trading System" },
+          "timestamp": "2026-02-22T12:01:00+13:00"
+        }
+      ]
+    }
+  ]
 }
