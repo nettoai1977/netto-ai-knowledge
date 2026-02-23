@@ -7,6 +7,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const PORT = 8888;
 const TRADING_DIR = __dirname;
@@ -42,13 +43,72 @@ function getLatestData(pattern, limit = 1) {
   }).filter(Boolean);
 }
 
-// Get paper positions
+// Get paper positions from Binance Testnet
 function getPaperPositions() {
-  const positionsFile = path.join(TRADING_DIR, 'paper_positions.json');
-  if (fs.existsSync(positionsFile)) {
-    return JSON.parse(fs.readFileSync(positionsFile, 'utf8'));
+  try {
+    const result = execSync('python3 binance_api.py positions', {
+      encoding: 'utf-8',
+      cwd: TRADING_DIR,
+      timeout: 10000
+    });
+    const positions = JSON.parse(result.trim());
+    
+    // Get current prices for each position
+    const enrichedPositions = positions.map(pos => {
+      try {
+        const priceResult = execSync(`python3 binance_api.py price ${pos.symbol}`, {
+          encoding: 'utf-8',
+          cwd: TRADING_DIR,
+          timeout: 5000
+        });
+        const priceData = JSON.parse(priceResult.trim());
+        const currentPrice = priceData.price;
+        
+        // Calculate PnL for SHORT: (entry - current) * size
+        // For LONG: (current - entry) * size
+        let pnl = 0;
+        if (pos.side === 'SHORT') {
+          pnl = (pos.entry_price - currentPrice) * pos.size;
+        } else {
+          pnl = (currentPrice - pos.entry_price) * pos.size;
+        }
+        
+        return {
+          ...pos,
+          current_price: currentPrice,
+          pnl: pnl,
+          pnlPercent: (pnl / (pos.entry_price * pos.size)) * 100,
+          status: pnl >= 0 ? 'PROFIT' : 'LOSS'
+        };
+      } catch (e) {
+        return { ...pos, current_price: null, pnl: 0, status: 'UNKNOWN' };
+      }
+    });
+    
+    // Calculate totals
+    const totalPnl = enrichedPositions.reduce((sum, p) => sum + p.pnl, 0);
+    
+    // Get balance
+    let balance = 4999.53;
+    try {
+      const balanceResult = execSync('python3 binance_api.py balance', {
+        encoding: 'utf-8',
+        cwd: TRADING_DIR,
+        timeout: 5000
+      });
+      const balanceData = JSON.parse(balanceResult.trim());
+      balance = balanceData.balance || 4999.53;
+    } catch (e) {}
+    
+    return {
+      positions: enrichedPositions,
+      balance: balance,
+      totalPnl: totalPnl
+    };
+  } catch (e) {
+    console.error('Error fetching positions:', e.message);
+    return { positions: [], balance: 4999.53, totalPnl: 0 };
   }
-  return { positions: [], balance: 10000 };
 }
 
 // Build dashboard data
@@ -72,7 +132,7 @@ function buildDashboardData() {
     timestamp: new Date().toISOString(),
     stats: {
       capital: paper.balance || 4999.53,
-      totalPnl: 0,
+      totalPnl: paper.totalPnl || 0,
       winRate: 0,
       totalTrades: paper.positions?.length || 0,
       signalsToday: totalSignals,
