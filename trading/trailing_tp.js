@@ -70,13 +70,14 @@ class TrailingTPManager {
 
   closePosition(symbol) {
     try {
-      // For paper trading, we'd call the Binance testnet API to close
+      // Close position via Binance testnet API
       console.log(`🚨 TRAILING TP TRIGGERED: Closing ${symbol}`);
-      execSync(`python3 binance_api.py close ${symbol}`, {
+      const result = execSync(`python3 binance_api.py close ${symbol}`, {
         encoding: 'utf-8',
         cwd: TRADING_DIR,
         timeout: 10000
       });
+      console.log('Close result:', result);
       return true;
     } catch (e) {
       console.error(`Error closing ${symbol}:`, e.message);

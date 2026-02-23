@@ -37,13 +37,10 @@ def sign(params):
 def request(endpoint, params=None, method='GET'):
     if params is None:
         params = {}
-    
     headers = {'X-MBX-APIKEY': API_KEY}
     params['timestamp'] = int(time.time() * 1000)
     params['signature'] = sign(params)
-    
     url = f"{BASE_URL}{endpoint}"
-    
     try:
         if method == 'GET':
             resp = requests.get(url, headers=headers, params=params, timeout=10)
@@ -51,7 +48,6 @@ def request(endpoint, params=None, method='GET'):
             resp = requests.post(url, headers=headers, params=params, timeout=10)
         else:
             return {'error': f'Unknown method: {method}'}
-        
         return resp.json()
     except Exception as e:
         return {'error': str(e)}
@@ -59,10 +55,8 @@ def request(endpoint, params=None, method='GET'):
 def get_positions():
     """Get open futures positions"""
     account = request('/fapi/v2/account')
-    
     if 'error' in account:
         return account
-    
     positions = []
     for pos in account.get('positions', []):
         size = float(pos.get('positionAmt', 0))
@@ -75,16 +69,13 @@ def get_positions():
                 'unrealized_pnl': float(pos.get('unRealizedProfit', 0)),
                 'leverage': int(pos.get('leverage', 1))
             })
-    
     return positions
 
 def get_balance():
     """Get account balance in USDT"""
     account = request('/fapi/v2/account')
-    
     if 'error' in account:
         return 0
-    
     return float(account.get('totalWalletBalance', 0))
 
 def get_price(symbol):
@@ -94,6 +85,35 @@ def get_price(symbol):
         return float(resp.json().get('price', 0))
     except:
         return 0
+
+def close_position(symbol):
+    """Close position for symbol (market order)"""
+    # First get position info
+    positions = get_positions()
+    pos = next((p for p in positions if p['symbol'] == symbol), None)
+    if not pos:
+        return {'error': f'No position found for {symbol}'}
+    
+    size = pos['size']
+    side = 'SELL' if pos['side'] == 'LONG' else 'BUY'
+    
+    # Place market order to close
+    params = {
+        'symbol': symbol,
+        'side': side,
+        'type': 'MARKET',
+        'quantity': size,
+        'reduceOnly': 'true'
+    }
+    result = request('/fapi/v1/order', params, 'POST')
+    return {
+        'status': 'closed',
+        'symbol': symbol,
+        'side': pos['side'],
+        'size': size,
+        'entry_price': pos['entry_price'],
+        'result': result
+    }
 
 def main():
     command = sys.argv[1] if len(sys.argv) > 1 else 'positions'
@@ -105,6 +125,9 @@ def main():
     elif command == 'price':
         symbol = sys.argv[2] if len(sys.argv) > 2 else 'BTCUSDT'
         result = {'symbol': symbol, 'price': get_price(symbol)}
+    elif command == 'close':
+        symbol = sys.argv[2] if len(sys.argv) > 2 else 'BTCUSDT'
+        result = close_position(symbol)
     else:
         result = {'error': f'Unknown command: {command}'}
     
