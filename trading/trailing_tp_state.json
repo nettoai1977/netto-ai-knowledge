@@ -3,9 +3,9 @@
     "BNBUSDT": {
       "entryPrice": 597.37375,
       "side": "SHORT",
-      "bestPrice": 601.62,
-      "trailTP": null,
-      "activated": false,
+      "bestPrice": 590.02,
+      "trailTP": 595.9202,
+      "activated": true,
       "startTime": "2026-02-25T02:22:15.239Z"
     }
   },
